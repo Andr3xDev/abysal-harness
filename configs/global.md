@@ -18,11 +18,13 @@ Never assume file locations — always check the local config first.
 ## Permission Model
 
 ### Auto-approved
+
 Any read-only operation: `ls`, `cat`, `tree`, `grep`, `find`,
 `git log`, `git status`, `git diff`, `git show`, reading any file or directory.
 If it is a read, execute immediately without confirmation.
 
 ### Requires explicit approval
+
 - Creating, editing, or deleting any file or directory
 - `git commit`, `git push`, `git checkout -b`, `git merge`
 - Any infrastructure command (`terragrunt`, `terraform`, cloud CLIs)
