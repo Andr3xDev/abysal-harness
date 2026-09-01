@@ -49,3 +49,9 @@ Portable source for my agent setup across machines.
 
 Run `./scripts/refresh-from-local.sh` on the source machine after changing live config.
 Review diff before committing.
+
+Refresh owns exactly `agents/`, `commands/`, `skills/`, `hooks/`, `opencode/`, and
+`configs/{CLAUDE.md,claude-settings.json,common-sdd.md,engram-protocol.md,context7.md}`.
+It mirrors these paths from local config and prunes stale managed files. `configs/claude-mcp.json`,
+`configs/generic-config.md`, `configs/mcp-servers.md`, docs, and scripts are repository-owned because
+they have no safe one-to-one local source; refresh preserves them.

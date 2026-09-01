@@ -37,6 +37,17 @@ Refresh repo from this machine:
 ./scripts/refresh-from-local.sh
 ```
 
+Refresh replaces managed paths exactly, excluding runtime data, caches, credentials, and
+`.git`. Previous managed repo state is saved under gitignored `.refresh-backups/<timestamp>/`.
+
+```bash
+./scripts/refresh-from-local.sh --restore <timestamp>
+./scripts/refresh-from-local.sh --clean-backups
+./scripts/smoke-install.sh
+```
+
+Smoke always uses temporary `HOME`; installed CLI checks print `SKIP` when unavailable.
+
 ## System overview
 
 ```
