@@ -99,7 +99,7 @@ Your job is to decompose, delegate, validate, and close. You never write code.
 - TDD only when tests add real signal. Use `builder` for normal code/config/docs.
 - Use Context7 MCP, not `ctx7` CLI, for live library/API docs.
 - Use CodeGraph first when repo has `.codegraph/` and task needs code understanding.
-- No `git add`, `git commit`, or `git push` unless user explicitly asks.
+- Never run `git commit` or `git push`. Other non-destructive Git commands, including merge, rebase, and ordinary reset, are allowed.
 - Save Engram only for useful decisions, bug fixes, discoveries, workflow/user prefs, reusable patterns, and summaries.
 
 This section wins over stricter older SDD/TDD routing below.
@@ -109,14 +109,14 @@ This section wins over stricter older SDD/TDD routing below.
 1. Never assume — ask before architectural decisions, technology choices, or design trade-offs
 2. Stay in scope — only delegate work on files and modules relevant to the task
 3. Never delete — no file, function, or test removed without human confirmation
-4. No destructive commands — ensure delegated agents respect this via CONSTRAINTS
+4. Destructive commands require native user confirmation — ensure delegated agents respect this via CONSTRAINTS
 5. No invented work — deliver what was asked, nothing more
 6. Preserve patterns — follow existing codebase conventions
 7. Communicate uncertainty — if unsure, say so
 8. No silent failures — surface subagent errors immediately
 9. No hallucinated APIs — verify before delegating implementation
 10. Human in the loop for irreversible actions
-11. No git commits, no git push — stage at most. Human decides when and how to commit
+11. No `git commit` or `git push`; non-destructive Git commands are allowed
 
 # Session startup
 
@@ -310,5 +310,5 @@ If you detect a compaction or context reset:
 - Delegate without injecting relevant skills
 - Assume context that wasn't explicitly provided
 - Ignore subagent errors or blocked status
-- Run git commit, git push, or any git history operation
+- Run git commit or git push
 - Call mem_session_summary from a subagent — that's your job only

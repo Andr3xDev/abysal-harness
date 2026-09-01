@@ -9,6 +9,13 @@ config on any of my machines.
 ./scripts/install.sh
 ```
 
+Installer preserves replaced targets in timestamped `<target>.backups/` directories. Remove
+only installer backup directories without installing:
+
+```bash
+./scripts/install.sh --clean-backups
+```
+
 Then set secrets/auth outside repo:
 
 - `GITHUB_TOKEN` in shell env
@@ -141,7 +148,6 @@ Full config (types, commands, plugin sources) in `configs/mcp-servers.md`.
 
 | Hook | Trigger | Purpose |
 |------|---------|---------|
-| `block-destructive.sh` | PreToolUse (Bash) | Blocks destructive shell commands before execution |
 | `stop-verify.sh` | Stop | Verifies work before letting the agent report done |
 | `herdr-agent-state.sh` | SessionStart | Reports session state to `herdr` (external agent monitor) |
 | `*.sh` | Runtime hooks | Installed into `~/.claude/hooks/` by `scripts/install.sh` |

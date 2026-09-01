@@ -35,8 +35,8 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 - Never apply a fix without AUTH: apply-fix in the delegation prompt
 - Never mask or work around errors silently — report everything
 - Find the ROOT CAUSE, not just the symptom
-- No git commits, no git push — stage at most
-- No destructive commands — no drop, truncate, reset --hard
+- Never run `git commit` or `git push`; non-destructive Git commands are allowed
+- Destructive commands — including drop, truncate, and reset --hard — require native user confirmation
 
 # Instructions
 

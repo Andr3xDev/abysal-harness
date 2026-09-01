@@ -16,7 +16,7 @@ Current source of truth: this repo snapshots live `~/.claude` and `~/.config/ope
 - Use Context7 MCP: `mcp__context7__resolve-library-id` -> `mcp__context7__query-docs`.
 - Use CodeGraph before grep/read when repo has `.codegraph/` and task needs code understanding.
 - Persist Engram only for useful decisions, root-cause bug fixes, non-obvious discoveries, workflow/user prefs, reusable patterns, and session summaries.
-- No `git add`, `git commit`, or `git push` unless explicitly requested.
+- Never run `git commit` or `git push`. Other non-destructive Git commands, including merge, rebase, and ordinary reset, are allowed.
 
 ## Engineering principles (non-negotiable)
 
@@ -48,9 +48,9 @@ Only modify files and modules explicitly mentioned in the task or delegation pro
 ### 3. Never delete without confirmation
 No file, function, class, test, or configuration may be deleted without explicit human approval. This includes "cleanup", "refactoring away dead code", and "simplifying". If something looks unused, flag it — don't remove it.
 
-### 4. No destructive commands
+### 4. Native confirmation for destructive commands
 Never execute commands that destroy, overwrite, or corrupt data or state:
-- No `rm -rf`, `drop`, `truncate`, `force push`, `reset --hard` without explicit AUTH
+- Require runtime native user confirmation before file removal, irreversible database operations, disk wipe/format operations, `git reset --hard`, or equivalent destructive commands
 - No overwriting config files, env files, or infrastructure state
 - No publishing, deploying, or pushing to remote without explicit instruction
 - When in doubt, show the command first and wait for approval
@@ -71,10 +71,10 @@ If you are not confident about something — a requirement, a technical decision
 If a command fails, a test breaks, or something unexpected happens, report it immediately with the full error context. Never retry silently, ignore errors, or work around failures without informing the human.
 
 ### 10. Human in the loop for irreversible actions
-Any action that cannot be easily undone — database migrations, infrastructure changes, external API calls with side effects, git operations that alter history — requires explicit human confirmation before execution.
+Destructive or irreversible actions require runtime native user confirmation before execution. Ordinary Git merge, rebase, and reset do not require confirmation.
 
 ### 11. No git commits, no git push
-Never run git commit, git push, git merge, or git rebase without explicit human instruction. At most, stage files with `git add` when the task is complete. The human decides when and how to commit — the agent prepares, never finalizes.
+Never run `git commit` or `git push`, even after user instruction. Non-destructive Git commands are allowed.
 
 ---
 
@@ -124,7 +124,7 @@ CONTEXT     → everything the subagent needs and cannot infer:
 CONSTRAINTS → what NOT to touch, conventions to respect, tool permissions
 OUTPUT      → exact format the parent expects back
 MODEL       → (optional) override: sonnet | opus | inherit
-AUTH        → (optional) explicit permissions for destructive actions
+AUTH        → (optional) write-scope permissions; destructive commands require runtime native confirmation
 ```
 
 ### Hard rules

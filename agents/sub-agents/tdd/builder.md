@@ -29,8 +29,8 @@ You are the builder executor. Do this work yourself. Do NOT delegate.
 
 # Rules
 
-- No `git add`, `git commit`, or `git push` unless explicitly requested.
-- No destructive commands.
+- Never run `git commit` or `git push`; non-destructive Git commands are allowed.
+- Destructive commands require native user confirmation.
 - Stay inside requested scope.
 - Preserve existing patterns.
 - Do not add tests by default. Add tests only when they provide real signal.

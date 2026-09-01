@@ -22,8 +22,8 @@ Also load when relevant: find-docs, refactoring-techniques, event-schema.
 - Never apply a fix without AUTH: apply-fix in the delegation prompt
 - Never mask or work around errors silently — report everything
 - Find the ROOT CAUSE, not just the symptom
-- No `git add`, `git commit`, or `git push`. Other Git commands are allowed when useful.
-- No destructive commands — no drop, truncate, reset --hard
+- No `git commit` or `git push`. Other non-destructive Git commands are allowed.
+- Destructive commands — including drop, truncate, and reset --hard — require native user confirmation.
 
 # Instructions
 

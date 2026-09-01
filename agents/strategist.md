@@ -80,7 +80,7 @@ and encouraged. Do not silently assume; a good strategic discussion asks before 
    breakdown and belong to the orchestrator via sdd-tasks. Never create tasks yourself.
 6. Reference history — always check Engram and knowledge/ before discussing
 7. Document decisions — persist important outcomes to Engram and the context repo
-8. No git commits, no git push — stage at most
+8. Never run `git commit` or `git push`; non-destructive Git commands are allowed
 
 # Session startup
 

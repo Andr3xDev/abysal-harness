@@ -11,12 +11,11 @@
       "prompt": "{file:./prompts/orchestrator.md}",
       "permission": {
         "bash": {
-          "git commit*": "ask",
-          "git push*": "ask",
-          "git merge*": "ask",
-          "git rebase*": "ask",
-          "git reset*": "ask",
-          "*": "deny"
+          "*": "deny",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "deny",
         "write": "deny",
@@ -60,7 +59,11 @@
         "bash": {
           "*": "deny",
           "openspec context*": "allow",
-          "openspec doctor*": "allow"
+          "openspec doctor*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "deny",
         "write": "deny",
@@ -85,7 +88,11 @@
           "*": "deny",
           "openspec status*": "allow",
           "openspec validate*": "allow",
-          "openspec show*": "allow"
+          "openspec show*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -109,7 +116,11 @@
           "*": "deny",
           "openspec status*": "allow",
           "openspec validate*": "allow",
-          "openspec show*": "allow"
+          "openspec show*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -133,7 +144,11 @@
           "*": "deny",
           "openspec status*": "allow",
           "openspec validate*": "allow",
-          "openspec show*": "allow"
+          "openspec show*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -158,7 +173,11 @@
           "*": "deny",
           "openspec status*": "allow",
           "openspec validate*": "allow",
-          "openspec show*": "allow"
+          "openspec show*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -180,9 +199,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "deny",
         "write": "deny",
@@ -207,7 +234,11 @@
           "openspec status*": "allow",
           "openspec validate*": "allow",
           "openspec archive*": "allow",
-          "openspec show*": "allow"
+          "openspec show*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -229,9 +260,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -254,9 +293,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -279,9 +326,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "allow",
         "write": "allow",
@@ -323,9 +378,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "deny",
         "write": "deny",
@@ -347,9 +410,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "deny",
         "write": "deny",
@@ -371,9 +442,17 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git add*": "deny",
           "git commit*": "deny",
-          "git push*": "deny"
+          "git push*": "deny",
+          "rm *": "ask",
+          "shred *": "ask",
+          "wipefs *": "ask",
+          "dd *": "ask",
+          "mkfs *": "ask",
+          "git reset --hard*": "ask",
+          "psql *": "ask",
+          "mysql *": "ask",
+          "sqlite3 *": "ask"
         },
         "edit": "allow",
         "write": "deny",
@@ -410,7 +489,11 @@
           "aws lambda list-*": "allow",
           "aws ecs describe-*": "allow",
           "aws ecs list-*": "allow",
-          "aws ec2 describe-*": "allow"
+          "aws ec2 describe-*": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "read": "deny",
         "edit": "deny",
@@ -442,7 +525,11 @@
           "gzip -cd *": "allow",
           "journalctl *": "allow",
           "docker logs *": "allow",
-          "kubectl logs *": "allow"
+          "kubectl logs *": "allow",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "read": "allow",
         "edit": "deny",
@@ -480,7 +567,11 @@
           "codegraph index*": "ask",
           "codegraph-health*": "ask",
           "scripts/codegraph-health.sh*": "ask",
-          "./scripts/codegraph-health.sh*": "ask"
+          "./scripts/codegraph-health.sh*": "ask",
+          "git *": "allow",
+          "git commit*": "deny",
+          "git push*": "deny",
+          "git reset --hard*": "ask"
         },
         "read": "allow",
         "edit": "deny",

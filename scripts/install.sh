@@ -3,6 +3,61 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STAMP="$(date +%Y%m%d-%H%M%S)"
+BACKUP_TARGETS=(
+  "$HOME/.claude/agents"
+  "$HOME/.claude/commands"
+  "$HOME/.claude/skills"
+  "$HOME/.claude/hooks"
+  "$HOME/.claude/CLAUDE.md"
+  "$HOME/.claude/settings.json"
+  "$HOME/.claude/common-sdd.md"
+  "$HOME/.claude/engram-protocol.md"
+  "$HOME/.claude/rules/context7.md"
+  "$HOME/.local/bin/codegraph-health"
+  "$HOME/.claude.json"
+  "$HOME/.config/opencode"
+)
+
+usage() {
+  echo "usage: $0 [--clean-backups]"
+}
+
+clean_backups() {
+  local target backup_dir found=false
+  for target in "${BACKUP_TARGETS[@]}"; do
+    backup_dir="${target}.backups"
+    if [ -d "$backup_dir" ] && [ ! -L "$backup_dir" ]; then
+      echo "removing $backup_dir"
+      rm -rf "$backup_dir"
+      found=true
+    fi
+  done
+  "$found" || echo "no installer backups found"
+}
+
+case "$#" in
+  0) ;;
+  1)
+    case "$1" in
+      --clean-backups)
+        clean_backups
+        exit 0
+        ;;
+      --help|-h)
+        usage
+        exit 0
+        ;;
+      *)
+        usage >&2
+        exit 1
+        ;;
+    esac
+    ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+esac
 
 backup() {
   local target="$1"
@@ -46,6 +101,7 @@ mkdir -p "$HOME/.local/bin"
 install_file "$ROOT/scripts/codegraph-health.sh" "$HOME/.local/bin/codegraph-health"
 chmod +x "$HOME/.local/bin/codegraph-health"
 
+backup "$HOME/.claude.json"
 node - "$ROOT/configs/claude-mcp.json" "$HOME/.claude.json" <<'NODE'
 const fs = require('fs');
 const [source, target] = process.argv.slice(2);

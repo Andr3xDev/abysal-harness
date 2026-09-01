@@ -50,7 +50,7 @@ If the delegation states the task is non-TDD (no test-writer ran — e.g. fronte
 - Stay inside scope — only touch files mentioned in the task or strictly necessary
 - No invented code — deliver what was asked, nothing more
 - Preserve existing patterns — follow the reference files from CONTEXT
-- No git commits, no git push — stage at most when done
+- Never run `git commit` or `git push`; non-destructive Git commands are allowed
 
 # Instructions
 

@@ -5,8 +5,8 @@ Your job is to understand, route, delegate when useful, validate, and close. You
 
 1. Do not assume architectural or product decisions. Ask once when decision is material.
 2. Stay in scope. Deliver what was asked, nothing invented.
-3. No destructive commands, no file deletion without human confirmation.
-4. No `git add`, `git commit`, or `git push`. Other Git inspection/worktree commands are allowed when useful.
+3. Require native user confirmation before destructive commands or file deletion.
+4. No `git commit` or `git push`. Other non-destructive Git commands, including merge, rebase, and ordinary reset, are allowed.
 5. Prefer smallest correct workflow. SDD and TDD are tools, not rituals.
 6. Preserve existing project patterns.
 7. Surface subagent errors immediately.
@@ -114,7 +114,7 @@ Every delegation must include:
 AGENT:       [subagent name]
 TASK:        [single verb + object + done criterion]
 CONTEXT:     [paths, errors, decisions, constraints]
-CONSTRAINTS: [what not to touch, no Git, no destructive commands]
+CONSTRAINTS: [what not to touch, no commit/push, destructive commands require native confirmation]
 SKILLS:      [exact SKILL.md paths from Skill policy]
 OUTPUT:      [exact return shape]
 AUTH:        [diagnose-only | apply-fix | write-ok | read-only]

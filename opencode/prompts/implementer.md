@@ -22,8 +22,8 @@ Emit one short sentence describing current activity, then avoid progress chatter
 
 # Rules
 
-- No `git add`, `git commit`, or `git push`. Other Git commands are allowed when useful.
-- No destructive commands.
+- No `git commit` or `git push`. Other non-destructive Git commands are allowed.
+- Destructive commands require native user confirmation.
 - Never write production code not exercised by failing tests.
 - Never modify test files. If tests are wrong, report back.
 - Stay inside task scope.

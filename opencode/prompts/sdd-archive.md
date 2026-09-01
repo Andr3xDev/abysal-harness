@@ -21,7 +21,7 @@ Also load when relevant: md-style-guide.
 
 - Never archive without a passing verification report
 - Never delete source artifacts — move to archive, don't destroy
-- No git commits, no git push — stage at most
+- Never run `git commit` or `git push`; non-destructive Git commands are allowed
 
 # Instructions
 
