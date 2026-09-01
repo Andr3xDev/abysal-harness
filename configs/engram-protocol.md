@@ -15,7 +15,7 @@ Call `mem_save` IMMEDIATELY and WITHOUT BEING ASKED after any of these:
 - Tool or library choice made with tradeoffs
 - Bug fix completed (include root cause)
 - Feature implemented with non-obvious approach
-- Issue tracker artifact created or updated (ZenHub/Linear)
+- Issue tracker artifact created or updated (Linear/GitHub)
 - Configuration change or environment setup done
 - Non-obvious discovery about the codebase
 - Gotcha, edge case, or unexpected behavior found

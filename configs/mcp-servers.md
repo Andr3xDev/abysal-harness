@@ -1,6 +1,6 @@
 # MCP Servers
 
-MCP servers configured in this environment (secrets/tokens omitted — see `~/.claude.json` `env`/`headers` fields for actual credentials).
+MCP servers configured in this environment. Secrets/tokens omitted.
 
 | Server | Type | Command / URL | Purpose |
 |--------|------|----------------|---------|
@@ -10,7 +10,6 @@ MCP servers configured in this environment (secrets/tokens omitted — see `~/.c
 | `github` | stdio | `npx -y @modelcontextprotocol/server-github` | Issues, PRs, repo search |
 | `linear-server` | http | `https://mcp.linear.app/mcp` | Linear issues/projects/initiatives |
 | `filesystem` | stdio | `npx -y @modelcontextprotocol/server-filesystem <dirs>` | Sandboxed filesystem access outside project root |
-| `google-calendar` | stdio | `npx @cocal/google-calendar-mcp` | Calendar read/write |
 
 ## Plugins (marketplace-installed)
 

@@ -1,3 +1,5 @@
+@RTK.md
+
 # Global Agent Harness
 
 > Defines HOW we work. Never WHAT we build.
@@ -6,19 +8,21 @@
 
 ---
 
-## OpenCode/Claude Mirror Override
+## Engineering principles (non-negotiable)
 
-Current source of truth: this repo snapshots live `~/.claude` and `~/.config/opencode` config.
+## OpenCode Mirror Override
 
-- SDD only when explicitly requested: `plan`, `spec`, `design`, `SDD`, or `OpenSpec`.
-- TDD only when tests add signal: business logic, branches, validation, permissions, money/security, parsers, transformations, bug regressions, stable service behavior.
+Current source of truth is `~/.config/opencode/opencode.json` and prompts under `~/.config/opencode/prompts/`.
+
+- SDD only when user explicitly asks for `plan`, `spec`, `design`, `SDD`, or `OpenSpec`.
+- TDD only when tests add real signal: business logic, branches, validation, permissions, money/security, parsers, transformations, bug regressions, stable service behavior.
 - Default writer for normal code/config/docs is `builder`; strict RED/GREEN route is `test-writer` -> `implementer` only when valuable.
-- Use Context7 MCP: `mcp__context7__resolve-library-id` -> `mcp__context7__query-docs`.
+- Use Context7 MCP for library/API docs: `mcp__context7__resolve-library-id` -> `mcp__context7__query-docs`. Do not use `ctx7` CLI.
 - Use CodeGraph before grep/read when repo has `.codegraph/` and task needs code understanding.
 - Persist Engram only for useful decisions, root-cause bug fixes, non-obvious discoveries, workflow/user prefs, reusable patterns, and session summaries.
-- No `git add`, `git commit`, or `git push` unless explicitly requested.
+- No `git add`, `git commit`, or `git push` unless user explicitly asks.
 
-## Engineering principles (non-negotiable)
+This override supersedes older strict SDD/TDD language below.
 
 Every output — code, spec, design, or review — must respect these:
 
@@ -27,8 +31,8 @@ Every output — code, spec, design, or review — must respect these:
 - **DRY** — no knowledge duplication
 - **YAGNI** — don't build what's not needed today
 - **Clean Code** — descriptive names, small functions, self-documenting code
-- **SDD** — explicit mode for changes that need formal specs
-- **TDD** — use when tests add real signal
+- **SDD** — no implementation without an approved spec
+- **TDD** — tests first, minimal implementation to pass them. Default for testable backend/domain logic; may be relaxed only when the spec or delegation explicitly says so (e.g. frontend UI, services without a test harness)
 - **Event-driven** — domain events defined in schema before implementing
 - **Loop engineering** — agents never self-report completion; verifiable criteria only
 
@@ -75,6 +79,9 @@ Any action that cannot be easily undone — database migrations, infrastructure 
 
 ### 11. No git commits, no git push
 Never run git commit, git push, git merge, or git rebase without explicit human instruction. At most, stage files with `git add` when the task is complete. The human decides when and how to commit — the agent prepares, never finalizes.
+
+### 12. Subagents never communicate with the user directly
+Subagents report to their parent (orchestrator), not to the user. Never ask questions, never prompt for input, never request clarification mid-task. If context is missing or ambiguous: make a reasonable assumption, document it explicitly in the output, and continue. Only return `status: blocked` for true hard blockers — situations physically impossible to resolve without human input. The orchestrator decides whether to escalate to the user and how.
 
 ---
 
@@ -184,3 +191,48 @@ The orchestrator adapts based on intent — not separate agents per mode:
 | "debug X" / error context | debug | debugger |
 | "review X" | review | code-reviewer in full-repo mode |
 | any other task | direct | orchestrator handles directly, no delegation |
+
+---
+
+## Tooling configuration
+
+> Override any of these in the project's own CLAUDE.md when working on a different machine or context.
+
+### Specs
+
+```yaml
+specs_path: ~/dev/specter/openspec  # central repo for all SDD artifacts
+persistence_mode: hybrid         # openspec | engram | hybrid
+                                 # hybrid = write to specter/ AND persist to Engram
+                                 # varies by project: use openspec for file-heavy flows,
+                                 # engram-only for lightweight or exploratory work
+```
+
+All SDD agents read and write artifacts under `specs_path/changes/{project}-{change-name}/`:
+- `proposal.md`, `design.md`, `tasks.md`, `specs/spec.md`
+- `{project}` = the repo/service the change targets (e.g. `hyprland`, `bridge-api`)
+- `specs_path/changes/archive/{project}-{change-name}/` for closed changes
+- `specs_path/specs/{project}/{domain}/spec.md` for consolidated specs (updated only on archive)
+
+### Issue tracker
+
+```yaml
+tracker: linear                  # linear | github | jira | none
+tracker_mcp: mcp__linear-server  # MCP server used for tracker operations
+tracker_secondary: github        # optional — used alongside primary when applicable
+                                 # set to none if not needed
+```
+
+Agents use `tracker_mcp` for issue/epic management by default.
+When `tracker_secondary` is set, use it for PR linking and code review context.
+
+<!-- CODEGRAPH_START -->
+## CodeGraph
+
+In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:
+
+- **MCP tool** (when available): `codegraph_explore` answers most code questions in one call — the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.
+- **Shell** (always works): `codegraph explore "<symbol names or question>"` prints the same output.
+
+If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
+<!-- CODEGRAPH_END -->
