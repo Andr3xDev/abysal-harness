@@ -9,6 +9,10 @@ config on any of my machines.
 ./scripts/install.sh
 ```
 
+> [!WARNING]
+> **Local cache-pinned OpenCode paths**
+> `opencode/plugins/caveman-native.js:6` and `opencode/tui.json:4` point to personal npm/npx and OpenCode package caches. Harness assumes those local installs exist; cache cleanup or package updates can break them. Before install or use, check paths; if missing, rerun package, enable, or install command that created affected plugin.
+
 Installer preserves replaced targets in timestamped `<target>.backups/` directories. Remove
 only installer backup directories without installing:
 
