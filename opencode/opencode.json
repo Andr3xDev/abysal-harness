@@ -561,6 +561,16 @@
       "enabled": true
     }
   },
+  "permission": {
+    "external_directory": {
+      "/home/andrex/dev/**": "allow",
+      "/home/andrex/laburo/**": "allow",
+      "/home/andrex/university/**": "allow",
+      "/home/andrex/.config/**": "allow",
+      "/home/andrex/.claude/**": "allow",
+      "*": "ask"
+    }
+  },
   "provider": {
     "openai": {
       "options": {

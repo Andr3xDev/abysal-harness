@@ -1,4 +1,4 @@
-# code-agents
+# abysal-harness
 
 Personal Claude Code + OpenCode harness. Portable source to install the same agent
 config on any of my machines.
