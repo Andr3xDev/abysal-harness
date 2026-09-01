@@ -101,13 +101,17 @@ mkdir -p "$HOME/.local/bin"
 install_file "$ROOT/scripts/codegraph-health.sh" "$HOME/.local/bin/codegraph-health"
 chmod +x "$HOME/.local/bin/codegraph-health"
 
-backup "$HOME/.claude.json"
-node - "$ROOT/configs/claude-mcp.json" "$HOME/.claude.json" <<'NODE'
+node - "$ROOT/configs/claude-mcp.json" "$HOME/.claude.json" "$STAMP" <<'NODE'
 const fs = require('fs');
-const [source, target] = process.argv.slice(2);
+const [source, target, stamp] = process.argv.slice(2);
 const mcpServers = JSON.parse(fs.readFileSync(source, 'utf8'));
-const config = fs.existsSync(target) ? JSON.parse(fs.readFileSync(target, 'utf8')) : {};
+const existing = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
+const config = existing === null ? {} : JSON.parse(existing);
 config.mcpServers = { ...(config.mcpServers || {}), ...mcpServers };
+if (existing !== null) {
+  fs.mkdirSync(`${target}.backups`, { recursive: true });
+  fs.renameSync(target, `${target}.backups/${stamp}`);
+}
 fs.writeFileSync(target, JSON.stringify(config, null, 2) + '\n');
 NODE
 
