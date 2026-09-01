@@ -1,0 +1,576 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "@dietrichgebert/ponytail"
+  ],
+  "default_agent": "orchestrator",
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/orchestrator.md}",
+      "permission": {
+        "bash": {
+          "git commit*": "ask",
+          "git push*": "ask",
+          "git merge*": "ask",
+          "git rebase*": "ask",
+          "git reset*": "ask",
+          "*": "deny"
+        },
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "task": "allow",
+        "question": "allow",
+        "github_*": "allow",
+        "linear-server_*": "allow",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "strategist": {
+      "mode": "primary",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/strategist.md}",
+      "permission": {
+        "bash": "deny",
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "task": "allow",
+        "question": "allow",
+        "github_*": "allow",
+        "linear-server_*": "allow",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-explore": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-explore.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "openspec context*": "allow",
+          "openspec doctor*": "allow"
+        },
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-propose": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-propose.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "openspec status*": "allow",
+          "openspec validate*": "allow",
+          "openspec show*": "allow"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-spec": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-spec.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "openspec status*": "allow",
+          "openspec validate*": "allow",
+          "openspec show*": "allow"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-design": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-design.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "openspec status*": "allow",
+          "openspec validate*": "allow",
+          "openspec show*": "allow"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-tasks": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-tasks.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "openspec status*": "allow",
+          "openspec validate*": "allow",
+          "openspec show*": "allow"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-verify": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-verify.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "sdd-archive": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/sdd-archive.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "openspec status*": "allow",
+          "openspec validate*": "allow",
+          "openspec archive*": "allow",
+          "openspec show*": "allow"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "deny",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "test-writer": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/test-writer.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "builder": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/builder.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "implementer": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/implementer.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "allow",
+        "write": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "code-reviewer": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/code-reviewer.md}",
+      "permission": {
+        "bash": "deny",
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "judge-a": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/judge-a.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "judge-b": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/judge-b.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "debugger": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/debugger.md}",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git add*": "deny",
+          "git commit*": "deny",
+          "git push*": "deny"
+        },
+        "edit": "allow",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "aws": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/infrastructure/aws.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "aws logs describe-*": "allow",
+          "aws logs filter-log-events *": "allow",
+          "aws logs get-log-events *": "allow",
+          "aws logs start-query *": "allow",
+          "aws logs get-query-results *": "allow",
+          "aws dynamodb describe-*": "allow",
+          "aws dynamodb list-*": "allow",
+          "aws dynamodb get-item *": "allow",
+          "aws dynamodb query *": "allow",
+          "aws dynamodb scan *": "allow",
+          "aws lambda get-*": "allow",
+          "aws lambda list-*": "allow",
+          "aws ecs describe-*": "allow",
+          "aws ecs list-*": "allow",
+          "aws ec2 describe-*": "allow"
+        },
+        "read": "deny",
+        "edit": "deny",
+        "write": "deny",
+        "glob": "deny",
+        "grep": "deny",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "context7_*": "allow",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "log-reader": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/infrastructure/log-reader.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "rg *": "allow",
+          "wc *": "allow",
+          "du *": "allow",
+          "ls *": "allow",
+          "zcat *": "allow",
+          "gzip -cd *": "allow",
+          "journalctl *": "allow",
+          "docker logs *": "allow",
+          "kubectl logs *": "allow"
+        },
+        "read": "allow",
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    },
+    "codegraph-maintainer": {
+      "mode": "subagent",
+      "model": "openai/gpt-5.6-terra",
+      "prompt": "{file:./prompts/infrastructure/codegraph-maintainer.md}",
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "codegraph status*": "allow",
+          "codegraph query*": "allow",
+          "codegraph explore*": "allow",
+          "codegraph files*": "allow",
+          "codegraph node*": "allow",
+          "codegraph callers*": "allow",
+          "codegraph callees*": "allow",
+          "codegraph impact*": "allow",
+          "codegraph affected*": "allow",
+          "codegraph unlock*": "ask",
+          "codegraph init*": "ask",
+          "codegraph sync*": "ask",
+          "codegraph index*": "ask",
+          "codegraph-health*": "ask",
+          "scripts/codegraph-health.sh*": "ask",
+          "./scripts/codegraph-health.sh*": "ask"
+        },
+        "read": "allow",
+        "edit": "deny",
+        "write": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "deny",
+        "task": "deny",
+        "question": "deny",
+        "github_*": "deny",
+        "linear-server_*": "deny",
+        "engram_*": "allow",
+        "filesystem_*": "deny"
+      }
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "enabled": true
+    },
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true
+    },
+    "engram": {
+      "command": [
+        "/usr/bin/engram",
+        "mcp",
+        "--tools=agent"
+      ],
+      "enabled": true,
+      "type": "local"
+    },
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/andrex/dev/",
+        "/home/andrex/laburo/"
+      ],
+      "enabled": true
+    },
+    "github": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_TOKEN}"
+      },
+      "enabled": true
+    },
+    "linear-server": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp",
+      "enabled": true
+    },
+    "caveman": {
+      "type": "local",
+      "command": [
+        "/home/andrex/.caveman/bin/caveman-mcp"
+      ],
+      "enabled": true
+    }
+  },
+  "provider": {
+    "openai": {
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/w/opencode/openai/v1"
+      }
+    },
+    "anthropic": {
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/w/opencode/anthropic/v1"
+      }
+    }
+  }
+}

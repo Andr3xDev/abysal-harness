@@ -4,7 +4,7 @@ description: |
   Validate that implementation matches specs, design, and tasks. Use when implementation
   reports done and the change must be verified against its contract before archive.
   Runs tests, compares output against spec scenarios, reports deviations.
-model: sonnet
+model: claude-sonnet-5
 tools:
   - Read
   - Grep

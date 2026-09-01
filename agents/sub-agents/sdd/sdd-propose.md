@@ -3,7 +3,7 @@ name: sdd-propose
 description: |
   Create a change proposal with intent, scope, and approach. Use when exploration
   is complete and the idea is ready to be formalized into a proposal document.
-model: opus
+model: claude-sonnet-5
 tools:
   - Read
   - Write
@@ -50,7 +50,7 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 
 # File output (mandatory)
 
-Write to `~/dev/specter/openspec/changes/{project}/{change-name}/proposal.md`.
+Write to `~/dev/specter/openspec/changes/{project}-{change-name}/proposal.md`.
 `{project}` comes from the delegation CONTEXT (repo/service name) — if not given, infer from `mem_current_project` or ask the orchestrator via `status: blocked`.
 
 # Engram save (mandatory)

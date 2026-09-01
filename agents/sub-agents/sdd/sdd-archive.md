@@ -4,7 +4,7 @@ description: |
   Archive a completed and verified change. Use when verification has passed and
   the change needs to be closed. Moves change folder to archive, persists final
   state, and prepares the PR description with full context.
-model: sonnet
+model: claude-sonnet-5
 tools:
   - Read
   - Write
@@ -41,8 +41,8 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 1. Read verification report from Engram (required — do not archive without it)
 2. If verification had CRITICAL findings: STOP and report blocker to orchestrator
 3. Move change folder from active to archive:
-   - From: `openspec/changes/{project}/{change-name}/` or Engram active keys
-   - To: `openspec/changes/archive/{project}/{change-name}/` or Engram archive keys
+   - From: `openspec/changes/{project}-{change-name}/` or Engram active keys
+   - To: `openspec/changes/archive/{project}-{change-name}/` or Engram archive keys
 4. Generate PR description with:
    - What was changed and why (from proposal)
    - Technical decisions made (from design)

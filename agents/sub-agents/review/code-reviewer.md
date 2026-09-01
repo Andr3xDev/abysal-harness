@@ -5,7 +5,7 @@ description: |
   Use for the standard TDD loop review after implementation. For critical features
   that need deeper review, use judgment-day (judge-a + judge-b) instead.
   Read-only — reports findings, never modifies code.
-model: sonnet
+model: claude-sonnet-5
 tools:
   - Read
   - Grep

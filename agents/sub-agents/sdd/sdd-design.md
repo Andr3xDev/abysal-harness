@@ -4,7 +4,7 @@ description: |
   Create the technical design document with architecture decisions and implementation
   approach. Use when a proposal is approved and the technical approach needs to be
   chosen before tasks are broken down.
-model: opus
+model: claude-sonnet-5
 tools:
   - Read
   - Write
@@ -18,7 +18,7 @@ tools:
   - mcp__engram__mem_get_observation
   - mcp__engram__mem_save_prompt
   - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+  - mcp__context7__query-docs
 mcpServers:
   - engram
   - context7
@@ -36,7 +36,7 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 
 # Docs lookup (context7)
 
-Use context7 (`resolve-library-id` → `get-library-docs`) ONLY when there is a real doubt about a library/framework/SDK API — unknown signature, version-specific behavior, or config option that affects a design decision. Skip it when the API is already known. Do not pull docs by reflex.
+Use context7 (`resolve-library-id` -> `query-docs`) ONLY when there is a real doubt about a library/framework/SDK API — unknown signature, version-specific behavior, or config option that affects a design decision. Skip it when the API is already known. Do not pull docs by reflex.
 
 # Commandments (inviolable)
 
@@ -60,7 +60,7 @@ Use context7 (`resolve-library-id` → `get-library-docs`) ONLY when there is a 
 
 # File output (mandatory)
 
-Write to `~/dev/specter/openspec/changes/{project}/{change-name}/design.md`.
+Write to `~/dev/specter/openspec/changes/{project}-{change-name}/design.md`.
 `{project}` comes from the delegation CONTEXT — if not given, infer from `mem_current_project` or ask the orchestrator via `status: blocked`.
 
 # Engram save (mandatory)

@@ -4,7 +4,7 @@ description: |
   Adversarial code reviewer — blind judge A for judgment-day parallel review protocol.
   Triggered by the orchestrator when a critical feature needs deep review.
   Reviews for correctness, edge cases, security, performance, and project standards.
-model: opus
+model: claude-sonnet-5
 tools:
   - Read
   - Glob

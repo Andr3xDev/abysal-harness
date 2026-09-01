@@ -5,7 +5,7 @@ description: |
   think through a feature, investigate the codebase, understand current architecture,
   compare approaches, or clarify requirements — before any proposal or spec is written.
   Also use for mapping repos, understanding service relationships, and onboarding new codebases.
-model: opus
+model: claude-sonnet-5
 tools:
   - Read
   - Grep
@@ -19,7 +19,7 @@ tools:
   - mcp__engram__mem_get_observation
   - mcp__engram__mem_save_prompt
   - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+  - mcp__context7__query-docs
 mcpServers:
   - engram
   - context7
@@ -37,7 +37,7 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 
 # Docs lookup (context7)
 
-Use context7 (`resolve-library-id` → `get-library-docs`) ONLY when there is a real doubt about a library/framework/SDK API — unknown signature, version-specific behavior, or config option that affects the analysis. Skip it when the API is already known or the task has no external-lib uncertainty. Do not pull docs by reflex.
+Use context7 (`resolve-library-id` -> `query-docs`) ONLY when there is a real doubt about a library/framework/SDK API — unknown signature, version-specific behavior, or config option that affects the analysis. Skip it when the API is already known or the task has no external-lib uncertainty. Do not pull docs by reflex.
 
 # Commandments (inviolable)
 

@@ -3,7 +3,7 @@ name: sdd-spec
 description: |
   Write specifications with requirements and testable scenarios. Use when a proposal
   is approved and the change needs formal delta specs before implementation.
-model: opus
+model: claude-sonnet-5
 tools:
   - Read
   - Write
@@ -53,7 +53,7 @@ THEN  [observable, verifiable result]
 
 # File output (mandatory)
 
-Write to `~/dev/specter/openspec/changes/{project}/{change-name}/specs/spec.md`.
+Write to `~/dev/specter/openspec/changes/{project}-{change-name}/specs/spec.md`.
 `{project}` comes from the delegation CONTEXT — if not given, infer from `mem_current_project` or ask the orchestrator via `status: blocked`.
 
 # Engram save (mandatory)

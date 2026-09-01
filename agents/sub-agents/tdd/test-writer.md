@@ -4,7 +4,7 @@ description: |
   TDD red phase. Write failing tests from specs before any implementation exists.
   Tests are the executable contract of the spec. Use after sdd-tasks produces the
   task breakdown, before the implementer starts.
-model: sonnet
+model: claude-sonnet-5
 tools:
   - Read
   - Write

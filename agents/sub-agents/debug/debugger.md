@@ -4,7 +4,7 @@ description: |
   Root cause analysis for production errors, failing tests, or unexpected behavior.
   Use when something is broken and needs diagnosis. Can apply fixes only when
   explicitly authorized via AUTH in the delegation prompt.
-model: opus
+model: claude-sonnet-5
 tools:
   - Read
   - Bash

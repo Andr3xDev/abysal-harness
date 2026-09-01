@@ -4,7 +4,7 @@ description: |
   TDD green phase. Receive failing tests and write the minimal implementation to
   make them pass. Do not add logic that tests don't exercise. Follow existing
   codebase patterns. Use after test-writer produces failing tests.
-model: sonnet
+model: claude-sonnet-5
 tools:
   - Read
   - Write
@@ -19,7 +19,7 @@ tools:
   - mcp__engram__mem_current_project
   - mcp__engram__mem_get_observation
   - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+  - mcp__context7__query-docs
 mcpServers:
   - engram
   - context7
@@ -37,7 +37,7 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 
 # Docs lookup (context7)
 
-Use context7 (`resolve-library-id` → `get-library-docs`) ONLY when you have a real doubt about a library/framework/SDK API — unknown signature, version-specific behavior, or config option. Skip it when you already know the API. Do not pull docs by reflex.
+Use context7 (`resolve-library-id` -> `query-docs`) ONLY when you have a real doubt about a library/framework/SDK API — unknown signature, version-specific behavior, or config option. Skip it when you already know the API. Do not pull docs by reflex.
 
 # Non-TDD mode
 

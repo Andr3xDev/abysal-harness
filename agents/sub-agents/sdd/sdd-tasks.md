@@ -3,7 +3,7 @@ name: sdd-tasks
 description: |
   Break down a change into an implementation task checklist. Use when spec and design
   are both ready and the change needs to be sliced into actionable, ordered work items.
-model: sonnet
+model: claude-sonnet-5
 tools:
   - Read
   - Write
@@ -53,7 +53,7 @@ If truly blocked: return `status: blocked` with full details so the orchestrator
 
 # File output (mandatory)
 
-Write to `~/dev/specter/openspec/changes/{project}/{change-name}/tasks.md`.
+Write to `~/dev/specter/openspec/changes/{project}-{change-name}/tasks.md`.
 `{project}` comes from the delegation CONTEXT — if not given, infer from `mem_current_project` or ask the orchestrator via `status: blocked`.
 
 # Engram save (mandatory)
