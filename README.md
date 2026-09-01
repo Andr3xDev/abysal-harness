@@ -1,8 +1,34 @@
 # code-agents
 
-Personal Claude Code multi-agent harness — agents, commands, skills, hooks, and
-config mirrored from `~/.claude`. Defines **how** the agents work; project-specific
-context and specs live outside this repo (`~/dev/specter`).
+Personal Claude Code + OpenCode harness. Portable source to install the same agent
+config on any of my machines.
+
+## Install
+
+```bash
+./scripts/install.sh
+```
+
+Then set secrets/auth outside repo:
+
+- `GITHUB_TOKEN` in shell env
+- Linear MCP auth
+- Claude cloud connectors at `https://claude.ai/customize/connectors`
+- `~/.local/bin` in `PATH` for `codegraph-health`
+
+Validate:
+
+```bash
+claude doctor
+opencode debug config
+opencode mcp list
+```
+
+Refresh repo from this machine:
+
+```bash
+./scripts/refresh-from-local.sh
+```
 
 ## System overview
 
@@ -15,30 +41,35 @@ tech-orchestrator          strategist
         ├── sdd-spec        → specs/spec.md (GIVEN/WHEN/THEN)
         ├── sdd-design      → design.md (ADR-lite)
         ├── sdd-tasks       → tasks.md (ordered, PR-size forecast)
-        ├── test-writer     → failing tests (TDD red)
-        ├── implementer     → minimal code to pass tests (TDD green)
+        ├── builder         → default code/config/docs writer
+        ├── test-writer     → valuable failing tests (TDD red)
+        ├── implementer     → strict TDD green from existing failing tests
         ├── code-reviewer   → spec/design/test conformance review
         ├── judge-a/judge-b → blind dual adversarial review (judgment-day)
         ├── debugger        → root cause + fix (per AUTH)
+        ├── codegraph-maintainer → CodeGraph index health
         └── sdd-verify → sdd-archive → PR description ready
 ```
 
-The orchestrator never writes code directly — it delegates one task at a time
-with a strict contract (`AGENT / TASK / CONTEXT / CONSTRAINTS / OUTPUT`), and
-gates implementation on a complete spec (proposal + spec + design + tasks).
+The orchestrator never writes code directly. SDD runs only when explicitly asked;
+TDD runs only when tests add signal. Normal writes go to `builder`.
 
 ## Agents (`agents/`)
 
 | Agent | Role |
 |-------|------|
-| `tech-orchestrator` | Entry point for any multi-step task. Decomposes, delegates, never codes. |
+| `tech-orchestrator` | Claude entry point for multi-step task. Decomposes, delegates, never codes. |
 | `strategist` | Business-language discussion partner — epics/goals, no code, no delegation. |
 | `sub-agents/sdd/*` | One agent per SDD phase: explore, propose, spec, design, tasks, verify, archive. |
+| `sub-agents/tdd/builder` | Default writer when strict TDD is not useful. |
 | `sub-agents/tdd/test-writer` | Writes failing tests from specs (red phase). |
 | `sub-agents/tdd/implementer` | Minimal implementation to turn tests green. |
 | `sub-agents/review/code-reviewer` | Standard spec/design/test conformance review. |
 | `sub-agents/review/judge-a`, `judge-b` | Blind parallel adversarial review for critical features. |
 | `sub-agents/debug/debugger` | Root cause analysis; fixes only with explicit AUTH. |
+| `sub-agents/infrastructure/aws` | Read-only AWS investigation. |
+| `sub-agents/infrastructure/log-reader` | Read-only large log synthesis. |
+| `sub-agents/infrastructure/codegraph-maintainer` | Checks CodeGraph index status; init/sync/index only when explicit. |
 
 Each SDD phase agent is an **executor**, not a sub-orchestrator: it does the
 phase's work itself, never delegates further, and returns a structured
@@ -47,18 +78,37 @@ phase's work itself, never delegates further, and returns a structured
 ## Commands (`commands/`)
 
 Slash-command entry points that route into the modes above: `/plan`,
-`/implement`, `/explore`, `/debug`, `/review`, `/judgment-day`.
+`/implement`, `/explore`, `/debug`, `/review`, `/judgment-day`, `/codegraph`.
+
+## CodeGraph Maintenance
+
+Read-only health check:
+
+```bash
+./scripts/codegraph-health.sh /path/to/repo
+codegraph-health /path/to/repo
+```
+
+Explicit maintenance:
+
+```bash
+./scripts/codegraph-health.sh --init /path/to/repo
+./scripts/codegraph-health.sh --sync /path/to/repo
+./scripts/codegraph-health.sh --index /path/to/repo
+codegraph-health --sync /path/to/repo
+```
 
 ## Skills (`skills/`)
 
 Reference material loaded on demand (not always-on context):
 
 - `senior-architect/`, `software-design-patterns/`, `refactoring-techniques/` — architecture/design consultation
-- `event-schema.md` — validate domain events are schema'd before implementation
-- `context-compact.md` — preserve session state before `/compact` or `/clear`
+- `event-schema/` — validate domain events are schema'd before implementation
+- `context-compact/` — preserve session state before `/compact` or `/clear`
 - `judgment-day/` — blind dual-review protocol
-- `find-docs.md`, `karpathy-guidelines.md` — library docs lookup, LLM-coding-mistake avoidance
-- `skill-registry.md` — indexes skills by trigger phrase and path
+- `find-docs/`, `karpathy-guidelines/` — library docs lookup, LLM-coding-mistake avoidance
+- `md-style-guide/` — markdown artifact formatting rules
+- `skill-registry/` — indexes skills by trigger phrase and path
 
 ## Configs (`configs/`)
 
@@ -70,6 +120,10 @@ private `~/.claude/CLAUDE.md`):
 - `common-sdd.md` — shared executor-boundary protocol for all SDD phase agents
 - `engram-protocol.md` — memory save/search triggers
 - `mcp-servers.md` — MCP servers and plugins in use, no secrets
+- `CLAUDE.md` — live Claude global instructions snapshot
+- `claude-settings.json` — live Claude settings snapshot
+- `claude-mcp.json` — Claude MCP servers merged into `~/.claude.json`
+- `context7.md` — Context7 MCP rule
 
 ## MCP servers
 
@@ -81,8 +135,6 @@ private `~/.claude/CLAUDE.md`):
 | `github` | Issues, PRs, repo search |
 | `linear-server` | Linear issues/projects/initiatives |
 | `filesystem` | Sandboxed filesystem access outside project root |
-| `google-calendar` | Calendar read/write |
-
 Full config (types, commands, plugin sources) in `configs/mcp-servers.md`.
 
 ## Hooks (`hooks/`)
@@ -92,7 +144,7 @@ Full config (types, commands, plugin sources) in `configs/mcp-servers.md`.
 | `block-destructive.sh` | PreToolUse (Bash) | Blocks destructive shell commands before execution |
 | `stop-verify.sh` | Stop | Verifies work before letting the agent report done |
 | `herdr-agent-state.sh` | SessionStart | Reports session state to `herdr` (external agent monitor) |
-| `settings.json` | — | Full reference copy of live `~/.claude/settings.json` (hooks, permissions, plugins) |
+| `*.sh` | Runtime hooks | Installed into `~/.claude/hooks/` by `scripts/install.sh` |
 
 ## Memory system
 
@@ -107,18 +159,17 @@ Full config (types, commands, plugin sources) in `configs/mcp-servers.md`.
 openspec/
 ├── config.yaml
 ├── changes/
-│   ├── {project}/{change-name}/
+│   ├── {project}-{change-name}/
 │   │   ├── proposal.md
 │   │   ├── design.md
 │   │   ├── tasks.md
 │   │   └── specs/spec.md
-│   └── archive/{project}/{change-name}/   # closed changes
+│   └── archive/{project}-{change-name}/   # closed changes
 └── specs/{project}/{domain}/spec.md       # consolidated, updated on archive
 ```
 
 `{project}` is the repo/service the change targets (e.g. `hyprland`, `nvim`,
-`bridge-api`) — keeps unrelated projects from colliding under one flat
-`changes/` directory.
+`bridge-api`). Change IDs stay flat for OpenSpec.
 
 ## Communication/coding modes
 
@@ -129,3 +180,8 @@ Two independent, stackable plugin modes (default `full`, pinned in
 - **ponytail** — governs *how the agent codes*: YAGNI ladder, stdlib/native before custom, shortest working diff
 
 See `configs/mcp-servers.md` for the full plugin/MCP list.
+
+## Status Bars
+
+- Claude Code: `claude-hud` (`jarrodwatts/claude-hud`) via `statusLine.command` in `configs/claude-settings.json`
+- OpenCode TUI: `opencode-subagent-statusline` via `opencode/tui.json`

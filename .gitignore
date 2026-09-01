@@ -1,0 +1,24 @@
+node_modules/
+**/node_modules/
+
+# OpenCode runtime/cache
+opencode/sessions/
+opencode/cache/
+opencode/logs/
+
+# Claude runtime/cache if accidentally copied here
+projects/
+paste-cache/
+jobs/
+statsig/
+ide/
+shell-snapshots/
+backups/
+plugins/cache/
+daemon.log
+stats-cache.json
+
+# OS/editor junk
+**/.DS_Store
+*.swp
+*.swo
