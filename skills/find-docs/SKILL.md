@@ -19,33 +19,15 @@ description: >-
 
 # Documentation Lookup
 
-Retrieve current documentation and code examples for any library using the Context7 CLI.
-
-Make sure the CLI is up to date before running commands:
-
-```bash
-npm install -g ctx7@latest
-```
-
-Or run directly without installing:
-
-```bash
-npx ctx7@latest <command>
-```
+Retrieve current documentation and code examples with Context7 MCP, not the `ctx7` CLI.
 
 ## Workflow
 
 Two-step process: resolve the library name to an ID, then query docs with that ID.
 
-```bash
-# Step 1: Resolve library ID
-ctx7 library <name> <query>
+Use `mcp__context7__resolve-library-id`, then `mcp__context7__query-docs`.
 
-# Step 2: Query documentation
-ctx7 docs <libraryId> <query>
-```
-
-You MUST call `ctx7 library` first to obtain a valid library ID UNLESS the user explicitly provides a library ID in the format `/org/project` or `/org/project/version`.
+You MUST call `mcp__context7__resolve-library-id` first to obtain a valid library ID UNLESS the user explicitly provides a library ID in the format `/org/project` or `/org/project/version`.
 
 IMPORTANT: Do not run these commands more than 3 times per question. If you cannot find what you need after 3 attempts, use the best result you have.
 
@@ -53,11 +35,7 @@ IMPORTANT: Do not run these commands more than 3 times per question. If you cann
 
 Resolves a package/product name to a Context7-compatible library ID and returns matching libraries.
 
-```bash
-ctx7 library react "How to clean up useEffect with async operations"
-ctx7 library nextjs "How to set up app router with middleware"
-ctx7 library prisma "How to define one-to-many relations with cascade delete"
-```
+Use official library names, e.g. `React`, `Next.js`, `Prisma`.
 
 Always pass a `query` argument — it is required and directly affects result ranking. Use the user's intent to form the query, which helps disambiguate when multiple libraries share a similar name. Do not include any sensitive or confidential information such as API keys, passwords, credentials, personal data, or proprietary code in your query.
 
@@ -90,25 +68,15 @@ Each result includes:
 
 If the user mentions a specific version, use a version-specific library ID:
 
-```bash
-# General (latest indexed)
-ctx7 docs /vercel/next.js "How to set up app router"
+Pass version-specific IDs to `mcp__context7__query-docs` when available.
 
-# Version-specific
-ctx7 docs /vercel/next.js/v14.3.0-canary.87 "How to set up app router"
-```
-
-The available versions are listed in the `ctx7 library` output. Use the closest match to what the user specified.
+The available versions are listed in the resolve output. Use the closest match to what the user specified.
 
 ## Step 2: Query Documentation
 
 Retrieves up-to-date documentation and code examples for the resolved library.
 
-```bash
-ctx7 docs /facebook/react "How to clean up useEffect with async operations"
-ctx7 docs /vercel/next.js "How to add authentication middleware to app router"
-ctx7 docs /prisma/prisma "How to define one-to-many relations with cascade delete"
-```
+Use `mcp__context7__query-docs` with the resolved `/org/project` ID and a focused query.
 
 ### Writing good queries
 
@@ -125,30 +93,18 @@ Use the user's full question as the query when possible, vague one-word queries 
 
 The output contains two types of content: **code snippets** (titled, with language-tagged blocks) and **info snippets** (prose explanations with breadcrumb context).
 
-## Authentication
-
-Works without authentication. For higher rate limits:
-
-```bash
-# Option A: environment variable
-export CONTEXT7_API_KEY=your_key
-
-# Option B: OAuth login
-ctx7 login
-```
-
 ## Error Handling
 
-If a command fails with a quota error ("Monthly quota reached" or "quota exceeded"):
+If MCP call fails with quota/auth error ("Monthly quota reached" or "quota exceeded"):
 1. Inform the user their Context7 quota is exhausted
-2. Suggest they authenticate for higher limits: `ctx7 login`
-3. If they cannot or choose not to authenticate, answer from training knowledge and clearly note it may be outdated
+2. Do not silently fall back to training data
+3. Ask whether to continue from training knowledge and clearly note it may be outdated
 
 Do not silently fall back to training data — always tell the user why Context7 was not used.
 
 ## Common Mistakes
 
 - Library IDs require a `/` prefix — `/facebook/react` not `facebook/react`
-- Always run `ctx7 library` first — `ctx7 docs react "hooks"` will fail without a valid ID
+- Always resolve first — direct docs lookup for `react` will fail without a valid `/org/project` ID
 - Use descriptive queries, not single words — `"React useEffect cleanup function"` not `"hooks"`
 - Do not include sensitive information (API keys, passwords, credentials) in queries
